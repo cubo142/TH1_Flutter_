@@ -47,6 +47,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     Navigator.pop(context,
+                        //gán nội dung cho username, password đã được truyền từ object User được khởi tạo
+                        //xóa activtity hiện tại và trả về nội dung
                         User(username: email.text, password: conform.text));
                   }
                 },

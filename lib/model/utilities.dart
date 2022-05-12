@@ -1,16 +1,19 @@
 import 'dart:convert';
+import 'package:th_buoi1/model/user.dart';
+
 import 'products.dart';
-import 'package:http/http.dart' as http ;
+import 'package:http/http.dart' as http;
 import 'package:convert/convert.dart';
 import 'package:quiver/strings.dart';
-
+import 'package:th_buoi1/model/categories.dart';
 
 class Utilities {
   String? url = 'http://192.168.0.100:3000/api/food';
 
   static List<Products> data = [];
 
-  Future<List<Products>> getProducts() async{
+  
+  Future<List<Products>> getProducts() async {
     var res = await http.get(url);
     if (res.statusCode == 200) {
       var content = res.body;
@@ -24,6 +27,18 @@ class Utilities {
     }
 
     return <Products>[];
+  }
+
+  List<Products> getProductFormCate(int id) {
+    return Products.init().where((p) => p.cateID == id).toList();
+  }
+
+  // Products getAProductFormCate(int id){
+  //   return Products.init().where((p) => p.cateID == id) as Products;
+  // }
+
+  List<Products> find(String data){
+    return Products.init().where((p)=>p.title!.toLowerCase().contains(data.toLowerCase())).toList();
   }
 
   Products _fromJson(Map<String, dynamic> item) {
@@ -47,18 +62,16 @@ class Utilities {
       return null;
   }
 
-  static String? validatePassword(String value){
-    if(value.isEmpty){
+  static String? validatePassword(String value) {
+    if (value.isEmpty) {
       return 'Please enter password';
     }
-    if(value.length < 8){
+    if (value.length < 8) {
       return 'Password should be more than 8 characters ';
     }
   }
 
-  static String? conformPassword(String value, String value2){
-    if(!equalsIgnoreCase(value, value2))
-      return "Conform password invalid";
+  static String? conformPassword(String value, String value2) {
+    if (!equalsIgnoreCase(value, value2)) return "Conform password invalid";
   }
-
 }
